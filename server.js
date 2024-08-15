@@ -1,33 +1,29 @@
+const API_KEY = "264bb09ec4d858065cfb8860838a32ff"
+const DNS = "https://api.themoviedb.org/3"
+
 const express = require('express')
 app = express()
 var cors = require('cors')
 
 app.use(cors())
 
-// var bodyParser = require('body-parser');
+app.get('/', (req, res) => {  
+    let data = getData("/discover/tv?api_key="+API_KEY+"&with_genres=99");
 
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json('application/json'));
+    res.send(data);
+})
 
-// var dataBase = {
-//     clientes: [
-//         { nome: 'João' },
-//         { nome: 'José' },
-//         { nome: 'Tiago' }
-//     ]
-// }
+const getData = async (path) => {
+    try{
+        
+        let URI = DNS + path
+        let result = await fetch(URI)
 
-// app.get('/clientes', (req, res) => {
-//     res.send(dataBase.clientes)
-// })
+        return result.json()
 
-// app.post('/clientes', (req, res) => {
-    
-//     if(req.body.cliente.nome){
-//         dataBase.clientes.push({nome: req.body.cliente.nome})
-//     }
-
-//     res.send(dataBase.clientes)
-// })
+    } catch (error){
+        console.log(error)
+    }
+}
 
 app.listen(8080)
